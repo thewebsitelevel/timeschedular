@@ -1,10 +1,15 @@
+import React from 'react';
+
+import Layout from './hoc/Layout/Layout';
+import Scheduler from './components/Scheduler/Scheduler';
+
 import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      
-    </div>
+    <Layout>
+      <Scheduler/>
+    </Layout>
   );
 }
 

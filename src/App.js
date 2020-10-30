@@ -1,15 +1,15 @@
 import React from 'react';
+import {BrowserRouter} from 'react-router-dom';
 
 import Layout from './hoc/Layout/Layout';
-import Scheduler from './components/Scheduler/Scheduler';
 
 import './App.css';
 
 const App = () => {
   return (
-    <Layout>
-      <Scheduler/>
-    </Layout>
+    <BrowserRouter>
+      <Layout/>
+    </BrowserRouter>
   );
 }
 

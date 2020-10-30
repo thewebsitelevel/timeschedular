@@ -1,0 +1,31 @@
+.MainCard{
+    width: 300px;
+    height: 200px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 25px solid #9E6900;
+    background-color: white;
+    border-radius: 60px;
+    box-shadow: 2px 5px 5px #9E6900;
+    cursor: pointer;
+}
+
+.MainCard:hover,
+.MainCard:active {
+    border: 25px solid #da9306;
+}
+
+.MainCard:hover p{
+    color: #da9306;
+}
+
+.MainCard p{
+    font-family: Lobster;
+    font-size: 30px;
+    font-weight: bold;
+    color: #9E6900;
+    
+}
+

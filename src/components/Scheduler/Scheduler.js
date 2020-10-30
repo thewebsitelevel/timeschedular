@@ -1,16 +1,26 @@
+import {NavLink} from 'react-router-dom';
 
 import Auxi from '../../hoc/Auxi/Auxi';
-import Instructor from '../../containers/Instructor/Instructor';
-import Student from '../Student/Student';
+import MainCard from '../MainCard/MainCard';
+
+import classes from './Scheduler.module.css';
 
 
 import './Scheduler.module.css';
 
 const schedular = (props) => (
         <Auxi>
-            <div className="Scheduler" >
-                <Instructor/>
-                <Student/>
+            <div className= {classes.Scheduler} >
+                <NavLink to='/instructor' style={{textDecoration:"none"}} >
+                    <MainCard>
+                        <p>Instructor</p>
+                    </MainCard>
+                </NavLink >
+                <NavLink to='/student' style={{textDecoration:"none"}} >
+                    <MainCard>
+                        <p>Student</p>
+                    </MainCard>
+                </NavLink>
             </div>
         </Auxi>
     );

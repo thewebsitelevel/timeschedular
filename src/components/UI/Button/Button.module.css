@@ -1,0 +1,17 @@
+.Button{
+    color: white;
+    font-size: 16px;
+    width: 33.3%;
+    height: 100%;
+    border: transparent;
+    background-color: #9E6900;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+
+.Button:hover,
+.Button:active{
+    background-color: #da9306;
+    border: transparent;
+}

@@ -1,0 +1,26 @@
+.AddButton{
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    top: 90%;
+    left: 95%;
+    background-color: #9E6900;
+    display: flex;
+    justify-content: center;
+    border-radius: 30px;
+    align-items: flex-end;
+    padding-bottom: 3px;
+    box-shadow: 2px 5px 5px gray;
+    cursor: pointer;
+}
+
+.AddButton:hover{
+    background-color: #e69b05;
+    transform: scale(1.04);
+}
+
+.AddButton p{
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+}

@@ -577,7 +577,7 @@ class Instructor extends Component {
                     }}
                     clicked={this.viewHandler}
                 >
-                    Home
+                    Back
                 </AddButton>
 
                 {viewContent}

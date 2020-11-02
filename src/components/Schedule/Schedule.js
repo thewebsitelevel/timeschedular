@@ -1,22 +1,21 @@
 
+
 import classes from './Schedule.module.css';
 
-const schedule = (props) => {
-    return(
-        <div className={classes.Schedule} >
-            <div className={classes.Heading} >
-                <p className={classes.Title} >Title</p>
-                <p className={classes.Date} >Date</p>
-            </div>
-            <div className={classes.TopicCard} >
-                <p className={classes.Subtopic} >Subtopic</p>
-                <p className={classes.Time} >Time</p>
-                <ul>
-                    <li>Concepts</li>
-                </ul>
-            </div>
-        </div>
-    );
-}
+const schedule = (props) => (
+    
+        props.show?<div className={classes.Schedule} >
+                {console.log(props)}
+
+                        <div className={classes.Heading} >
+                            <p className={classes.Title} >{props.currSchedule.topic} </p>
+                            <p className={classes.Date} >{props.currSchedule.date.split('-').reverse().join('-')} </p>
+                        </div>
+                        <div className={classes.TopicCards} >
+                            {props.children}
+                        </div>
+                    </div>: null
+    
+)
 
 export default schedule;

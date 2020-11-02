@@ -1,0 +1,84 @@
+.AddSchedule {
+    width: 40%;
+    height: 50vh;
+    position: fixed;
+    z-index: 10000;
+    margin-left: 30%;
+    top: 5%;
+    left: 0;
+    display: flex;
+    flex-flow: column;
+    background-color: burlywood;
+    text-align: center;
+}
+
+h1{
+    margin-top: 10px;
+    font-family: Lobster;
+    color: saddlebrown;
+    
+}
+
+.form{
+    margin-top: 50px;
+}
+
+.formTopic{
+    font-size: 20px;
+    font-family: lobster;
+    color: saddlebrown;
+}
+
+.formDate{
+    font-size: 20px;
+    font-family: lobster;
+    color: saddlebrown;
+}
+
+.inputTopic{
+    width: 400px;
+    height: 30px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 20px;
+    padding: 5px;
+    letter-spacing: 1.2px;
+}
+
+.inputDate{
+    width: 400px;
+    height: 30px;
+    margin-left: 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.inputDate:hover,
+.inputDate:active,
+.inputTopic:hover,
+.inputTopic:active{
+    background-color: antiquewhite;
+
+}
+
+.form button{
+    width: 400px;
+    height: 30px;
+    margin-left: 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 20px;
+    padding: 5px;
+    background-color: indianred;
+    color: white;
+    font-size: 15px;
+    letter-spacing: 1.1px;
+    margin-left: 10%;
+}
+
+.form button:hover,
+.form button:active{
+    background-color: brown;
+}

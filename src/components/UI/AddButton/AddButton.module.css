@@ -1,9 +1,9 @@
 .AddButton{
     width: 60px;
     height: 60px;
-    position: fixed;
+    /* position: fixed;
     top: 90%;
-    left: 95%;
+    left: 95%; */
     background-color: #9E6900;
     display: flex;
     justify-content: center;

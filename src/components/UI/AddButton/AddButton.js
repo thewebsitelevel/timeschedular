@@ -4,8 +4,13 @@ import classes from './AddButton.module.css';
 
 const addbutton = (props) => {
     return (
-        <div className={classes.AddButton} >
-            <p>+</p>
+        <div
+            style={props.position}
+            onClick= {props.clicked}
+            className={classes.AddButton} >
+            <p
+                style={props.pPosition}
+            >{props.children} </p>
         </div>
     )
 }

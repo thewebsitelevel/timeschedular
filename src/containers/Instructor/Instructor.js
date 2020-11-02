@@ -8,7 +8,7 @@ import Schedule from '../../components/Schedule/Schedule';
 import AddSchedule from '../../components/AddSchedule/AddSchedule';
 import SubTopicForm from '../../components/SubTopicForm/SubTopicForm';
 import SubScheduleCard from '../../components/Schedule/SubScheduleCard/SubScheduleCard';
-
+import MainCard from '../../components/MainCard/MainCard';
 
 import classes from './Instructor.module.css';
 
@@ -16,27 +16,29 @@ class Instructor extends Component {
 
     state={
         schedules:[
-            {
-                id:0,
-                topic:"ravinder",
-                date:"08-09-0034"
-            }
+            //Demo Data
+            // {
+            //     id:0,
+            //     topic:"ravinder",
+            //     date:"08-09-0034"
+            // }
 
         ],
         subSchedules:[
             {
                 id:0,
                 data:[
-                    {
-                        subTopic:'Interactive Introduction to SQL ',
-                        time:'9am',
-                        concepts:["Create Table","Insert Data","Selecting Data" ,"Updating Data"]
-                    },
-                    {
-                        subTopic:'Interactive Introduction to SQL ',
-                        time:'10am',
-                        concepts:["Create Table","Insert Data","Selecting Data" ,"Updating Data"]
-                    }
+                    // Demo Data
+                    // {
+                    //     subTopic:'Interactive Introduction to SQL ',
+                    //     time:'9am',
+                    //     concepts:["Create Table","Insert Data","Selecting Data" ,"Updating Data"]
+                    // },
+                    // {
+                    //     subTopic:'Interactive Introduction to SQL ',
+                    //     time:'10am',
+                    //     concepts:["Create Table","Insert Data","Selecting Data" ,"Updating Data"]
+                    //}
                 ]
             }
         ],
@@ -47,8 +49,10 @@ class Instructor extends Component {
         showSubSchedule:true,
         addingOnNewSchedule:false,
         editMode:false,
+        subTopicEditMode:true,
         clickedSchedule:0,
         clickedScheduleObject:{},
+        clickedSchedule2:{},
         // Temp form data
         formData:{
             topic:'',
@@ -59,7 +63,10 @@ class Instructor extends Component {
             time:'',
             concepts:[],
         
-        newAddedSchedule:{}
+        newAddedSchedule:{},
+
+        viewStudent:false,
+        viewInstructor:false
 
 
     }
@@ -90,10 +97,11 @@ class Instructor extends Component {
             tempS.splice(i,1, obj);
             this.setState({
                 schedules:tempS, 
-                clickedScheduleObject:{},
-                editMode:false
+                editMode:false,
+                clickedScheduleObject:{}
+                
             });
-
+            
 
         }else{
             if(this.state.schedules.length <1){
@@ -185,10 +193,10 @@ class Instructor extends Component {
         if(this.state.addingOnNewSchedule){
             currid = this.state.newAddedSchedule.id;
             
-            console.table(currid)
+            // console.table(currid)
         }else{
             currid =this.state.clickedSchedule
-            console.table(currid)
+            // console.table(currid)
         }
         let subTopicFormData = {
             time:this.state.time,
@@ -253,15 +261,26 @@ class Instructor extends Component {
     }
 
     editScheduleHandler = (e,id) => {
-        let scheduleForEdit  =this.state.schedules.map(item => {
-            if(item.id === id){
-                return item;
-            }
+        let tempSchedules = this.state.schedules;
+        // let scheduleForEdit  =tempSchedules.map(item => {
+        //     if(item.id === id){
+        //         return item;
+        //     }
+                
+            
+        // })
+        let i = tempSchedules.findIndex(item => {
+            return item.id ===id;
         })
+
+        let scheduleForEdit = tempSchedules[i];
         this.setState({
-            clickedScheduleObject:scheduleForEdit[0],
+            clickedScheduleObject:scheduleForEdit,
             editMode:true
         });
+        //console.log(id)
+        // console.log(i, "index")
+        // console.log(scheduleForEdit)
        
     }
 
@@ -276,16 +295,57 @@ class Instructor extends Component {
             return item.id === id;
         })
         let subtopicindex =old[index].data.findIndex(i => {
-            return i.time == time;
+            return i.time === time;
         })
         old[index].data.splice(subtopicindex, 1);
         this.setState({subSchedules:old})
-        console.log(subtopicindex)
+        // console.log(subtopicindex)
         
     }
 
+
+    removesubTopicEditModeHandler =() => {
+        this.setState({subTopicEditMode:false})
+    }
+
+
+    viewHandler= () => {
+        this.setState({
+            viewStudent:false,
+            viewInstructor:false
+        })
+    }
+
+    openInstructorHandler = () => {
+        this.setState({
+            viewInstructor:true,
+            viewStudent:false
+        })
+    }
+
+    openStudentHandler = () => {
+        this.setState({
+            viewInstructor:false,
+            viewStudent:true
+        })
+    }
+
     render(){
-        
+
+        const studentScheduleCards = this.state.schedules.map((schedule) => {
+            return (<Card
+                        size= {{
+                            width:"100%"
+                        }}
+                        nobutton = "student"
+                        openSchedule = {(e) => {this.openSubScheduleHandler(e,schedule.id)}}
+                        key={schedule.id} 
+                        details={schedule} 
+                        />
+            )
+        })
+
+
         const scheduleCards = this.state.schedules.map((schedule) => {
             return (<Card
                         editSchedule= {(e) => {this.editScheduleHandler(e, schedule.id)}}
@@ -300,9 +360,9 @@ class Instructor extends Component {
         let loadSubSchedules;
         if(loadId >-1  && this.state.subSchedules[loadId]){
             let scheduleState = this.state.subSchedules[loadId].data;
-            loadSubSchedules = scheduleState.map(item =>{
+            loadSubSchedules = scheduleState.map((item,index) =>{
                 return <SubScheduleCard
-                            key={loadId}
+                            key={index}
                             details = {item} 
                         >
                             <AddButton
@@ -323,75 +383,204 @@ class Instructor extends Component {
             })
         }
 
+        let loadStudentSubSchedules;
+        if(loadId >-1  && this.state.subSchedules[loadId]){
+            let scheduleState = this.state.subSchedules[loadId].data;
+            loadStudentSubSchedules = scheduleState.map((item,index) =>{
+                return <SubScheduleCard
+                            key={index}
+                            details = {item} 
+                        >
+                            
+                        </SubScheduleCard>
+            })
+        }
+
+
+        let viewContent
+         if(this.state.viewInstructor === false && this.state.viewStudent===false){
+               viewContent = (<Auxi>
+                    <MainCard
+                        position= {{
+                            position:"fixed",
+                            top:"30%",
+                            left:"20%"
+                        }}
+                        clicked = {this.openInstructorHandler}
+                    >
+                        <p>Instructor</p>
+                    </MainCard>
+                    <MainCard
+                        position= {{
+                            position:"fixed",
+                            top:"30%",
+                            left:"50%"
+                        }}
+                        clicked = {this.openStudentHandler}
+                    >
+                        <p>Student</p>
+                    </MainCard>
+               </Auxi>)
+        }else if(this.state.viewInstructor === true && this.state.viewStudent === false){
+            viewContent =( <Auxi>
+                                <AddButton
+                                        position = {{position:"fixed", top:"90%", left:"95%"}}
+                                        clicked = {this.scheduleFormHandler} 
+                                        >+</AddButton>
+                                    <div className={classes.Container} >
+                                        <Auxi>
+                                            <BackDrop 
+                                                show= {this.state.addSchedule}
+                                                hide= {this.removeScheduleFormHandler}
+                                                />
+                                            <AddSchedule
+                                                dateChanged= {this.dateChangeHandler}
+                                                topicChanged = {this.topicChangeHandler}
+                                                newSchedule = {this.addScheduleHandler}
+                                                show= {this.state.addSchedule}
+                                                />
+                                        </Auxi>
+                                        {scheduleCards}
+                                        <Auxi>
+                                            <BackDrop 
+                                                css= {{zIndex:"100000"}}
+                                                show= {this.state.visibleSubSchedule}
+                                                hide = {this.removeSubScheduleHandler}
+                                                />
+                                            <SubTopicForm 
+
+                                                submitted = {this.subTopicFormSubmitHandler}
+                                                timeChanged ={this.timeChangedHandler}
+                                                subTopicChanged ={this.subTopicChangedHandler}
+                                                conceptsChanged = {this.conceptsChangedHandler}
+                                                show= {this.state.visibleSubSchedule}  />
+                                        </Auxi>
+                                        <Auxi>
+                                            <BackDrop 
+                                                show={this.state.visibleSubScheduleCards}
+                                                hide={this.removeSubSchedule}
+                                                />
+                                            <Schedule 
+                                                currSchedule = {this.state.schedules[this.state.clickedSchedule]} 
+                                                show ={this.state.visibleSubScheduleCards}
+                                                >
+                                                {loadSubSchedules}
+                                                <AddButton
+                                                    clicked = {this.openSubScheduleFormHandler}
+                                                    position = {{
+                                                        position:"relative", 
+                                                        marginLeft:"20px", 
+                                                        marginTop:"80px", 
+                                                        backgroundColor:"rgb(223, 171, 81)" }} 
+                                                    >+</AddButton>
+                                            </Schedule>
+                                        </Auxi>
+                                        <Auxi>
+                                            <BackDrop 
+                                                show={this.state.editMode}
+                                                hide={this.removeEditModeHandler}
+                                                />
+                                            <AddSchedule 
+                                                dateChanged= {this.dateChangeHandler}
+                                                topicChanged = {this.topicChangeHandler}
+                                                newSchedule = {this.addScheduleHandler}
+                                                inputDetails = {this.state.clickedScheduleObject}
+                                                show={this.state.editMode}
+                                            />
+
+                                        </Auxi>
+                                    </div>
+                            </Auxi>)
+        }else if(this.state.viewInstructor === false && this.state.viewStudent === true){
+            viewContent = (<Auxi>
+                                    <div className={classes.Container} >
+                                        <Auxi>
+                                            <BackDrop 
+                                                show= {this.state.addSchedule}
+                                                hide= {this.removeScheduleFormHandler}
+                                                />
+                                            <AddSchedule
+                                                dateChanged= {this.dateChangeHandler}
+                                                topicChanged = {this.topicChangeHandler}
+                                                newSchedule = {this.addScheduleHandler}
+                                                show= {this.state.addSchedule}
+                                                />
+                                        </Auxi>
+                                        {studentScheduleCards}
+                                        <Auxi>
+                                            <BackDrop 
+                                                css= {{zIndex:"100000"}}
+                                                show= {this.state.visibleSubSchedule}
+                                                hide = {this.removeSubScheduleHandler}
+                                                />
+                                            <SubTopicForm 
+
+                                                submitted = {this.subTopicFormSubmitHandler}
+                                                timeChanged ={this.timeChangedHandler}
+                                                subTopicChanged ={this.subTopicChangedHandler}
+                                                conceptsChanged = {this.conceptsChangedHandler}
+                                                show= {this.state.visibleSubSchedule}  />
+                                        </Auxi>
+                                        <Auxi>
+                                            <BackDrop 
+                                                show={this.state.visibleSubScheduleCards}
+                                                hide={this.removeSubSchedule}
+                                                />
+                                            <Schedule 
+                                                currSchedule = {this.state.schedules[this.state.clickedSchedule]} 
+                                                show ={this.state.visibleSubScheduleCards}
+                                                >
+                                                {loadStudentSubSchedules}
+                                                {/* <AddButton
+                                                    clicked = {this.openSubScheduleFormHandler}
+                                                    position = {{
+                                                        position:"relative", 
+                                                        marginLeft:"20px", 
+                                                        marginTop:"80px", 
+                                                        backgroundColor:"rgb(223, 171, 81)" }} 
+                                                    >+</AddButton> */}
+                                            </Schedule>
+                                        </Auxi>
+                                        <Auxi>
+                                            <BackDrop 
+                                                show={this.state.editMode}
+                                                hide={this.removeEditModeHandler}
+                                                />
+                                            <AddSchedule 
+                                                dateChanged= {this.dateChangeHandler}
+                                                topicChanged = {this.topicChangeHandler}
+                                                newSchedule = {this.addScheduleHandler}
+                                                inputDetails = {this.state.clickedScheduleObject}
+                                                show={this.state.editMode}
+                                            />
+
+                                        </Auxi>
+                                    </div>
+                            </Auxi>)
+        }
+
+
+
         return(
             <Auxi>
                 <AddButton
-                    position = {{position:"fixed", top:"90%", left:"95%"}}
-                    clicked = {this.scheduleFormHandler} 
-                    >+</AddButton>
-                <div className={classes.Container} >
-                    <Auxi>
-                        <BackDrop 
-                            show= {this.state.addSchedule}
-                            hide= {this.removeScheduleFormHandler}
-                            />
-                        <AddSchedule
-                            dateChanged= {this.dateChangeHandler}
-                            topicChanged = {this.topicChangeHandler}
-                            newSchedule = {this.addScheduleHandler}
-                            show= {this.state.addSchedule}
-                            />
-                    </Auxi>
-                    {scheduleCards}
-                    <Auxi>
-                        <BackDrop 
-                            css= {{zIndex:"100000"}}
-                            show= {this.state.visibleSubSchedule}
-                            hide = {this.removeSubScheduleHandler}
-                            />
-                        <SubTopicForm 
+                    position={{
+                        position:"fixed",
+                        width:"150px",
+                        top:'5%',
+                        left:"5%",
+                        height:"40px",
+                        backgroundColor:"brown"
+                    }}
+                    pPosition={{
+                        fontSize:"30px"
+                    }}
+                    clicked={this.viewHandler}
+                >
+                    Home
+                </AddButton>
 
-                            submitted = {this.subTopicFormSubmitHandler}
-                            timeChanged ={this.timeChangedHandler}
-                            subTopicChanged ={this.subTopicChangedHandler}
-                            conceptsChanged = {this.conceptsChangedHandler}
-                            show= {this.state.visibleSubSchedule}  />
-                    </Auxi>
-                    <Auxi>
-                        <BackDrop 
-                            show={this.state.visibleSubScheduleCards}
-                            hide={this.removeSubSchedule}
-                            />
-                        <Schedule 
-                            currSchedule = {this.state.schedules[this.state.clickedSchedule]} 
-                            show ={this.state.visibleSubScheduleCards}
-                            >
-                            {loadSubSchedules}
-                            <AddButton
-                                clicked = {this.openSubScheduleFormHandler}
-                                position = {{
-                                    position:"relative", 
-                                    marginLeft:"20px", 
-                                    marginTop:"80px", 
-                                    backgroundColor:"rgb(223, 171, 81)" }} 
-                                >+</AddButton>
-                        </Schedule>
-                    </Auxi>
-                    <Auxi>
-                        <BackDrop 
-                            show={this.state.editMode}
-                            hide={this.removeEditModeHandler}
-                            />
-                        <AddSchedule 
-                            dateChanged= {this.dateChangeHandler}
-                            topicChanged = {this.topicChangeHandler}
-                            newSchedule = {this.addScheduleHandler}
-                            inputDetails = {this.state.clickedScheduleObject}
-                            show={this.state.editMode}
-                        />
-
-                    </Auxi>
-                </div>
+                {viewContent}
             </Auxi>
         );
     }

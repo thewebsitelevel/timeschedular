@@ -1,7 +1,11 @@
 import classes from './MainCard.module.css';
 
 const mainCard = (props) => (
-    <div className={classes.MainCard} >
+    <div 
+        style={props.position}
+        onClick = {props.clicked}
+        className={classes.MainCard} 
+        >
         {props.children}
     </div>
 )

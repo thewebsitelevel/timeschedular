@@ -11,16 +11,11 @@ import './Scheduler.module.css';
 const schedular = (props) => (
         <Auxi>
             <div className= {classes.Scheduler} >
-                <NavLink to='/instructor' style={{textDecoration:"none"}} >
+                <NavLink to='/scheduler' style={{textDecoration:"none"}} >
                     <MainCard>
-                        <p>Instructor</p>
+                        <p>Scheduler</p>
                     </MainCard>
                 </NavLink >
-                <NavLink to='/student' style={{textDecoration:"none"}} >
-                    <MainCard>
-                        <p>Student</p>
-                    </MainCard>
-                </NavLink>
             </div>
         </Auxi>
     );

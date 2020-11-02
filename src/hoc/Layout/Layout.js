@@ -16,7 +16,7 @@ const layout = (props) => {
             <Header/>
             <main  className={classes.Content} >
                 <Route path="/student"  exact component={Student} />
-                <Route path='/instructor' exact component={Instructor} />
+                <Route path='/scheduler' exact component={Instructor} />
                 <Route path="/" exact component={Scheduler} />
             </main>
         </Auxi>

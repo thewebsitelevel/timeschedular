@@ -53,6 +53,7 @@ class Instructor extends Component {
         clickedSchedule:0,
         clickedScheduleObject:{},
         clickedSchedule2:{},
+        clickedScheduleIndex:0,
         // Temp form data
         formData:{
             topic:'',
@@ -224,7 +225,7 @@ class Instructor extends Component {
             addingOnNewSchedule:false
         });
 
-        
+        console.log(this.state.subSchedules)
         // let arr = this.state.subSchedules;
         // arr[currid].data.sort(function (a, b) {
         //     return new Date('1970/01/01 ' + a.time) - new Date('1970/01/01 ' + b.time);
@@ -235,9 +236,14 @@ class Instructor extends Component {
     }
 
     openSubScheduleHandler= (e,id) => {
+        let s = this.state.schedules;
+        let i = s.findIndex(item => {
+            return item.id ==id;
+        })
         this.setState({
             visibleSubScheduleCards:true,
-            clickedSchedule:id
+            clickedSchedule:id,
+            clickedScheduleIndex:i
         })
     }
 
@@ -330,6 +336,14 @@ class Instructor extends Component {
         })
     }
 
+    // findCurrScheduleHandler = () => {
+    //     let obj = this.state.schedules;
+    //     let i = obj.findIndex(item =>{
+    //         return item.id == this.state.clickedSchedule;
+    //     })
+    //     console.log(i);
+    // }
+
     render(){
 
         const studentScheduleCards = this.state.schedules.map((schedule) => {
@@ -356,7 +370,7 @@ class Instructor extends Component {
                         />
             )
         })
-        let loadId=this.state.clickedSchedule;
+        let loadId=this.state.clickedScheduleIndex;
         let loadSubSchedules;
         if(loadId >-1  && this.state.subSchedules[loadId]){
             let scheduleState = this.state.subSchedules[loadId].data;
@@ -396,6 +410,7 @@ class Instructor extends Component {
             })
         }
 
+        
 
         let viewContent
          if(this.state.viewInstructor === false && this.state.viewStudent===false){
@@ -461,7 +476,8 @@ class Instructor extends Component {
                                                 hide={this.removeSubSchedule}
                                                 />
                                             <Schedule 
-                                                currSchedule = {this.state.schedules[this.state.clickedSchedule]} 
+                                                currSchedule = {this.state.schedules[this.state.clickedScheduleIndex]} 
+                                                
                                                 show ={this.state.visibleSubScheduleCards}
                                                 >
                                                 {loadSubSchedules}
@@ -527,7 +543,7 @@ class Instructor extends Component {
                                                 hide={this.removeSubSchedule}
                                                 />
                                             <Schedule 
-                                                currSchedule = {this.state.schedules[this.state.clickedSchedule]} 
+                                                currSchedule = {this.state.schedules[this.state.clickedScheduleIndex]} 
                                                 show ={this.state.visibleSubScheduleCards}
                                                 >
                                                 {loadStudentSubSchedules}
@@ -559,6 +575,7 @@ class Instructor extends Component {
                             </Auxi>)
         }
 
+        
 
 
         return(
